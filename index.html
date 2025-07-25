@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Zealot of Aesthetics</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="carousel">
+
+    <!-- Slide 1: Hero -->
+    <section class="slide hero">
+      <img src="images/Header.svg"   alt="ZEALOT of Aesthetics" class="hero-header" />
+      <img src="images/Shop.svg"     alt="Shop button"           class="hero-shop"   />
+      <img src="images/Bottom.svg"   alt="10 days left"          class="hero-bottom" />
+    </section>
+
+    <!-- Slide 2: Product Box with cycling content & size selector -->
+    <section class="slide product-view">
+      <!-- 1) Box frame -->
+      <img src="images/Product Box.svg"    alt="Product frame"  class="product-box" />
+
+      <!-- 2) Tracker -->
+      <img src="images/Tracker.svg"        alt="0 | 100"        class="tracker"     />
+
+      <!-- 3) Dynamic content: product1, product2 or details -->
+      <img src="images/product1.png"       alt="Product"        class="product-img" id="productImg" />
+
+      <!-- 4) Back & Forward arrows -->
+      <img src="images/Back Arrow Product.svg"
+           alt="Previous"
+           class="arrow arrow-left"
+           id="prevProduct" />
+      <img src="images/Product Arrow.svg"
+           alt="Next"
+           class="arrow arrow-right"
+           id="nextProduct" />
+
+      <!-- 5) Price -->
+      <img src="images/Price.svg"          alt="$20"           class="price-svg"   />
+
+      <!-- 6) Size selector -->
+      <div class="size-options">
+        <img src="images/Size Small.svg"  alt="Small"  class="size-option" id="sizeSmall"  />
+        <img src="images/Size Medium.svg" alt="Medium" class="size-option" id="sizeMedium" />
+        <img src="images/Size Large.svg"  alt="Large"  class="size-option" id="sizeLarge"  />
+      </div>
+
+      <!-- 7) Buy button -->
+      <img src="images/Buy.svg"            alt="Buy"           class="buy-svg"     />
+    </section>
+
+  </div>
+
+  <!-- countdown for Slide 1 -->
+  <script src="js/countdown.js"></script>
+
+  <!-- Navigation, product cycler & size selector -->
+  <script>
+    const slides = document.querySelectorAll('.slide');
+
+    // Slide 1 → Slide 2
+    document.querySelector('.hero-shop')
+      .addEventListener('click', () => slides[1].scrollIntoView({ behavior:'smooth' }));
+
+    // Product states
+    const states = [
+      'images/product1.png',
+      'images/product2.png',
+      'images/Details.png'
+    ];
+    let idx = 0;
+    const imgEl   = document.getElementById('productImg');
+    const prevBtn = document.getElementById('prevProduct');
+    const nextBtn = document.getElementById('nextProduct');
+
+    // init
+    prevBtn.style.display = 'none';
+    function updateProduct() {
+      imgEl.src = states[idx];
+      prevBtn.style.display = idx > 0 ? 'block' : 'none';
+    }
+    nextBtn.addEventListener('click', () => {
+      if (idx < states.length - 1) { idx++; updateProduct(); }
+    });
+    prevBtn.addEventListener('click', () => {
+      if (idx > 0) { idx--; updateProduct(); }
+    });
+
+    // Buy button action
+    document.querySelector('.buy-svg')
+      .addEventListener('click', () => alert('Added to cart!'));
+
+    // Size selector
+    const sizes = document.querySelectorAll('.size-option');
+    sizes.forEach(el => {
+      el.addEventListener('click', () => {
+        sizes.forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+      });
+    });
+  </script>
+</body>
+</html>

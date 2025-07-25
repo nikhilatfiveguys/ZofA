@@ -1,0 +1,125 @@
+/* ===== Reset ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+/* ===== Carousel ===== */
+.carousel {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+}
+.slide {
+  flex: none;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  scroll-snap-align: start;
+  background: #f0ede4;
+}
+
+/* ===== Slide 1: Hero ===== */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: #fff;
+}
+.hero-header { width: 80%; }
+.hero-shop   { width: 40%; cursor: pointer; }
+.hero-bottom { width: 60%; }
+
+/* ===== Slide 2: Product ===== */
+/* 1) Box frame */
+.product-box {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  z-index: 1;
+}
+/* 2) Tracker */
+.tracker {
+  position: absolute;
+  top: 1%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  z-index: 2;
+}
+/* 3) Dynamic product image */
+.product-img {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  object-fit: contain;
+  z-index: 3;
+}
+/* 4) Arrows */
+.arrow {
+  position: absolute;
+  top: 47%;
+  transform: translateY(-50%);
+  width: 8%;
+  cursor: pointer;
+  z-index: 4;
+}
+.arrow-left {
+  left: 4%;
+  display: none; /* shown when idx>0 */
+}
+.arrow-right {
+  right: 4%;
+}
+/* 5) Price */
+.price-svg {
+  position: absolute;
+  top: 73%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 23%;
+  z-index: 2;
+}
+/* 6) Size selector */
+.size-options {
+  position: absolute;
+  top: 82%;
+  left: 52%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2rem;
+  z-index: 2;
+}
+.size-option {
+  width: 20%;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.size-option.selected {
+  transform: scale(1.5);
+}
+/* 7) Buy button */
+.buy-svg {
+  position: absolute;
+  top: 89%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45%;
+  cursor: pointer;
+  z-index: 2;
+}
