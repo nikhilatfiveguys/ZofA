@@ -5,67 +5,76 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Zealot of Aesthetics</title>
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Firebase v8 (namespaced) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFxa5Jj5rSM35KnmRhHq6MkKDb5zg_5A",
+      authDomain: "zofa-1aa85.firebaseapp.com",
+      projectId: "zofa-1aa85",
+      storageBucket: "zofa-1aa85.appspot.com",
+      messagingSenderId: "983975015076",
+      appId: "1:983975015076:web:c3ef92097196b5b49aac31",
+      measurementId: "G-RDEL6VHG88"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
 </head>
 <body>
-
   <div class="carousel">
-
-    <!-- Slide 1: Hero -->
+    <!-- Slide 1: Hero -->
     <section class="slide hero">
-      <img src="images/Header.svg"   alt="ZEALOT of Aesthetics" class="hero-header" />
-      <img src="images/Shop.svg"     alt="Shop button"           class="hero-shop"   />
-      <img src="images/Bottom.svg"   alt="10 days left"          class="hero-bottom" />
+      <img src="images/Header.svg" class="hero-header" alt="ZEALOT of Aesthetics" />
+      <img src="images/Shop.svg"   class="hero-shop"   alt="Shop button" />
     </section>
 
-    <!-- Slide 2: Product Box with cycling content & size selector -->
+    <!-- Slide 2: Product -->
     <section class="slide product-view">
-      <!-- 1) Box frame -->
-      <img src="images/Product Box.svg"    alt="Product frame"  class="product-box" />
+      <!-- Frame -->
+      <img src="images/Product Box.svg" class="product-box" alt="Product frame" />
 
-      <!-- 2) Tracker -->
-      <img src="images/Tracker.svg"        alt="0 | 100"        class="tracker"     />
+      <!-- 1) Tracker bar background -->
+      <img src="images/Tracker.svg" class="tracker-bar" alt="0 / 100 bar" />
 
-      <!-- 3) Dynamic content: product1, product2 or details -->
-      <img src="images/product1.png"       alt="Product"        class="product-img" id="productImg" />
-
-      <!-- 4) Back & Forward arrows -->
-      <img src="images/Back Arrow Product.svg"
-           alt="Previous"
-           class="arrow arrow-left"
-           id="prevProduct" />
-      <img src="images/Product Arrow.svg"
-           alt="Next"
-           class="arrow arrow-right"
-           id="nextProduct" />
-
-      <!-- 5) Price -->
-      <img src="images/Price.svg"          alt="$20"           class="price-svg"   />
-
-      <!-- 6) Size selector -->
-      <div class="size-options">
-        <img src="images/Size Small.svg"  alt="Small"  class="size-option" id="sizeSmall"  />
-        <img src="images/Size Medium.svg" alt="Medium" class="size-option" id="sizeMedium" />
-        <img src="images/Size Large.svg"  alt="Large"  class="size-option" id="sizeLarge"  />
+      <!-- 2) Digit overlay -->
+      <div class="tracker" id="tracker">
+        <img id="digitTens" class="digit" src="images/0.svg" alt="tens digit" />
+        <img id="digitOnes" class="digit" src="images/0.svg" alt="ones digit" />
+        <img           class="digit-100" src="images/100.svg" alt="/100" />
       </div>
 
-      <!-- 7) Buy button -->
-      <img src="images/Buy.svg"            alt="Buy"           class="buy-svg"     />
+      <!-- Product image -->
+      <img src="images/product1.png" class="product-img" id="productImg" alt="Product" />
+      <!-- Arrows -->
+      <img src="images/Back Arrow Product.svg"
+           class="arrow arrow-left"
+           id="prevProduct"
+           alt="Previous" />
+      <img src="images/Product Arrow.svg"
+           class="arrow arrow-right"
+           id="nextProduct"
+           alt="Next" />
+      <!-- Price -->
+      <img src="images/Price.svg" class="price-svg" alt="$20" />
+      <!-- Interested -->
+      <img src="images/Intrested.svg" class="buy-svg" alt="Interested" />
     </section>
-
   </div>
 
-  <!-- countdown for Slide 1 -->
+  <!-- Slide 1 countdown -->
   <script src="js/countdown.js"></script>
 
-  <!-- Navigation, product cycler & size selector -->
   <script>
-    const slides = document.querySelectorAll('.slide');
+    // Hero → Product
+    document.querySelector('.hero-shop').onclick = () => {
+      document.querySelectorAll('.slide')[1]
+              .scrollIntoView({ behavior: 'smooth' });
+    };
 
-    // Slide 1 → Slide 2
-    document.querySelector('.hero-shop')
-      .addEventListener('click', () => slides[1].scrollIntoView({ behavior:'smooth' }));
-
-    // Product states
+    // Product cycling
     const states = [
       'images/product1.png',
       'images/product2.png',
@@ -76,31 +85,65 @@
     const prevBtn = document.getElementById('prevProduct');
     const nextBtn = document.getElementById('nextProduct');
 
-    // init
-    prevBtn.style.display = 'none';
     function updateProduct() {
       imgEl.src = states[idx];
       prevBtn.style.display = idx > 0 ? 'block' : 'none';
+      nextBtn.style.display = idx < states.length - 1 ? 'block' : 'none';
     }
-    nextBtn.addEventListener('click', () => {
-      if (idx < states.length - 1) { idx++; updateProduct(); }
-    });
-    prevBtn.addEventListener('click', () => {
-      if (idx > 0) { idx--; updateProduct(); }
-    });
+    prevBtn.style.display = 'none'; updateProduct();
+    nextBtn.onclick = () => { if(idx<states.length-1){ idx++; updateProduct(); } };
+    prevBtn.onclick = () => { if(idx>0){ idx--; updateProduct(); } };
 
-    // Buy button action
-    document.querySelector('.buy-svg')
-      .addEventListener('click', () => alert('Added to cart!'));
+    // Digit tracker helper
+    const tensEl = document.getElementById('digitTens');
+    const onesEl = document.getElementById('digitOnes');
+    function setTracker(val) {
+      const v = Math.max(0, Math.min(100, Math.round(val)));
+      if (v === 100) {
+        tensEl.style.display = 'none';
+        onesEl.style.display = 'none';
+      } else {
+        const tens = Math.floor(v/10), ones = v%10;
+        if (tens===0) tensEl.style.display='none';
+        else {
+          tensEl.style.display='block';
+          tensEl.src = `images/${tens}.svg`;
+        }
+        onesEl.style.display='block';
+        onesEl.src = `images/${ones}.svg`;
+      }
+    }
 
-    // Size selector
-    const sizes = document.querySelectorAll('.size-option');
-    sizes.forEach(el => {
-      el.addEventListener('click', () => {
-        sizes.forEach(o => o.classList.remove('selected'));
-        el.classList.add('selected');
-      });
-    });
+    // Fetch & update sign‑up count
+    async function refreshCount() {
+      try {
+        const snap = await db.collection('subscribers').get();
+        setTracker(snap.size);
+      } catch(err) {
+        console.error('Error fetching count:', err);
+      }
+    }
+    refreshCount();
+
+    // Interested → save & refresh
+    document.querySelector('.buy-svg').onclick = async () => {
+      const email = prompt("Enter your email to be notified when this product is ready:");
+      if (!email) return;
+      if (!/\S+@\S+\.\S+/.test(email))
+        return alert("That doesn't look like a valid email.");
+
+      try {
+        await db.collection('subscribers').add({
+          email: email,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert(`Thanks! We'll notify you at ${email}`);
+        refreshCount();
+      } catch(err) {
+        console.error('Firestore write error:', err);
+        alert('Oops—something went wrong. Please try again later.');
+      }
+    };
   </script>
 </body>
 </html>
