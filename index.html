@@ -28,39 +28,36 @@
     <!-- Slide 1: Hero -->
     <section class="slide hero">
       <img src="images/Header.svg" class="hero-header" alt="ZEALOT of Aesthetics" />
-      <img src="images/Shop.svg"   class="hero-shop"   alt="Shop button" />
+      <img src="images/Shop.svg" class="hero-shop" alt="Shop button" />
     </section>
 
     <!-- Slide 2: Product -->
     <section class="slide product-view">
-      <!-- Frame -->
-      <img src="images/Product Box.svg" class="product-box" alt="Product frame" />
+      <div class="product-scroll">
+        <img src="images/Product Box.svg" class="product-box" alt="Product frame" />
 
-      <!-- 1) Tracker bar background -->
-      <img src="images/Tracker.svg" class="tracker-bar" alt="0 / 100 bar" />
+        <img src="images/Tracker.svg" class="tracker-bar" alt="0 / 100 bar" />
 
-      <!-- 2) Digit overlay -->
-      <div class="tracker" id="tracker">
-        <img id="digitTens" class="digit" src="images/0.svg" alt="tens digit" />
-        <img id="digitOnes" class="digit" src="images/0.svg" alt="ones digit" />
-        <img           class="digit-100" src="images/100.svg" alt="/100" />
+        <div class="tracker" id="tracker">
+          <img id="digitTens" class="digit" src="images/0.svg" alt="tens digit" />
+          <img id="digitOnes" class="digit" src="images/0.svg" alt="ones digit" />
+          <img class="digit-100" src="images/100.svg" alt="/100" />
+        </div>
+
+        <img src="images/product1.png" class="product-img" id="productImg" alt="Product" />
+
+        <img src="images/Back Arrow Product.svg"
+             class="arrow arrow-left"
+             id="prevProduct"
+             alt="Previous" />
+        <img src="images/Product Arrow.svg"
+             class="arrow arrow-right"
+             id="nextProduct"
+             alt="Next" />
+
+        <img src="images/Price.svg" class="price-svg" alt="$20" />
+        <img src="images/Intrested.svg" class="buy-svg" alt="Interested" />
       </div>
-
-      <!-- Product image -->
-      <img src="images/product1.png" class="product-img" id="productImg" alt="Product" />
-      <!-- Arrows -->
-      <img src="images/Back Arrow Product.svg"
-           class="arrow arrow-left"
-           id="prevProduct"
-           alt="Previous" />
-      <img src="images/Product Arrow.svg"
-           class="arrow arrow-right"
-           id="nextProduct"
-           alt="Next" />
-      <!-- Price -->
-      <img src="images/Price.svg" class="price-svg" alt="$20" />
-      <!-- Interested -->
-      <img src="images/Intrested.svg" class="buy-svg" alt="Interested" />
     </section>
   </div>
 
@@ -70,18 +67,15 @@
   <script>
     // Hero → Product
     document.querySelector('.hero-shop').onclick = () => {
-  const hero = document.querySelectorAll('.slide')[0];
-  const product = document.querySelectorAll('.slide')[1];
+      const hero = document.querySelectorAll('.slide')[0];
+      const product = document.querySelectorAll('.slide')[1];
 
-  // Scroll to product
-  product.scrollIntoView({ behavior: 'smooth' });
+      product.scrollIntoView({ behavior: 'smooth' });
 
-  // After animation delay (~500ms), hide hero
-  setTimeout(() => {
-    hero.style.display = 'none';
-  }, 600); // slightly longer than scroll duration
-};
-
+      setTimeout(() => {
+        hero.style.display = 'none';
+      }, 600);
+    };
 
     // Product cycling
     const states = [
@@ -90,7 +84,7 @@
       'images/Details.png'
     ];
     let idx = 0;
-    const imgEl   = document.getElementById('productImg');
+    const imgEl = document.getElementById('productImg');
     const prevBtn = document.getElementById('prevProduct');
     const nextBtn = document.getElementById('nextProduct');
 
@@ -99,9 +93,10 @@
       prevBtn.style.display = idx > 0 ? 'block' : 'none';
       nextBtn.style.display = idx < states.length - 1 ? 'block' : 'none';
     }
-    prevBtn.style.display = 'none'; updateProduct();
-    nextBtn.onclick = () => { if(idx<states.length-1){ idx++; updateProduct(); } };
-    prevBtn.onclick = () => { if(idx>0){ idx--; updateProduct(); } };
+    prevBtn.style.display = 'none';
+    updateProduct();
+    nextBtn.onclick = () => { if (idx < states.length - 1) { idx++; updateProduct(); } };
+    prevBtn.onclick = () => { if (idx > 0) { idx--; updateProduct(); } };
 
     // Digit tracker helper
     const tensEl = document.getElementById('digitTens');
@@ -112,13 +107,13 @@
         tensEl.style.display = 'none';
         onesEl.style.display = 'none';
       } else {
-        const tens = Math.floor(v/10), ones = v%10;
-        if (tens===0) tensEl.style.display='none';
+        const tens = Math.floor(v / 10), ones = v % 10;
+        if (tens === 0) tensEl.style.display = 'none';
         else {
-          tensEl.style.display='block';
+          tensEl.style.display = 'block';
           tensEl.src = `images/${tens}.svg`;
         }
-        onesEl.style.display='block';
+        onesEl.style.display = 'block';
         onesEl.src = `images/${ones}.svg`;
       }
     }
@@ -128,7 +123,7 @@
       try {
         const snap = await db.collection('subscribers').get();
         setTracker(snap.size);
-      } catch(err) {
+      } catch (err) {
         console.error('Error fetching count:', err);
       }
     }
@@ -148,7 +143,7 @@
         });
         alert(`Thanks! We'll notify you at ${email}`);
         refreshCount();
-      } catch(err) {
+      } catch (err) {
         console.error('Firestore write error:', err);
         alert('Oops—something went wrong. Please try again later.');
       }
