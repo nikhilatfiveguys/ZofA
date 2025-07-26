@@ -47,16 +47,18 @@
       <img class="digit-100" src="images/100.svg" />
     </div>
 
-    <img src="images/product1.png" class="product-img" id="productImg" />
+    <div class="product-display">
+  <img src="images/product1.png" class="product-img" id="productImg" />
+  <img src="images/Back Arrow Product.svg" class="arrow arrow-left" id="prevProduct" />
+  <img src="images/Product Arrow.svg" class="arrow arrow-right" id="nextProduct" />
+</div>
 
-    <div class="arrows">
-      <img src="images/Back Arrow Product.svg" class="arrow arrow-left" id="prevProduct" />
-      <img src="images/Product Arrow.svg" class="arrow arrow-right" id="nextProduct" />
-    </div>
 
     <img src="images/Price.svg" class="price-svg" />
     <img src="images/Intrested.svg" class="buy-svg" />
   </div>
+  <footer class="site-footer">you're jacked :)</footer>
+
 </section>
   </div>
 
@@ -130,7 +132,7 @@
 
     // Interested → save & refresh
     document.querySelector('.buy-svg').onclick = async () => {
-      const email = prompt("Enter your email to be notified when this product is ready:");
+      const email = prompt("It’s coming. Enter your email.");
       if (!email) return;
       if (!/\S+@\S+\.\S+/.test(email))
         return alert("That doesn't look like a valid email.");
@@ -140,7 +142,7 @@
           email: email,
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
-        alert(`Thanks! We'll notify you at ${email}`);
+        alert(`You're in. We'll reach you at ${email}`);
         refreshCount();
       } catch (err) {
         console.error('Firestore write error:', err);

@@ -33,7 +33,7 @@ html, body {
   max-height: 100vh;
   display: flex;
   flex-direction: column;
-}
+} 
 
 .product-scroll {
   display: flex;
@@ -44,19 +44,46 @@ html, body {
   min-height: 140vh;
   box-sizing: border-box;
 }
-
-.arrows {
+.product-display {
+  position: relative;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  width: 80vw;
-  margin: 2vh 0;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3vh;
+  margin-bottom: 2vh;
 }
 
+.product-img {
+  width: 75vw;
+  max-width: 400px;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+/* Arrow styling */
 .arrow {
-  width: 10vw;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8%;
   max-width: 50px;
   cursor: pointer;
+  z-index: 2;
 }
+.product-display .arrow-left {
+  left: -1vw !important;
+}
+
+.product-display .arrow-right {
+  right: -1vw !important;
+}
+
+
+
+
 
 
 
@@ -137,7 +164,7 @@ html, body {
   width: 75vw;
   max-width: 400px;
   object-fit: contain;
-  margin-top: 8vh; /* ⬅️ Move the image down */
+  margin-top: 9vh; /* ⬅️ Move the image down */
   margin-bottom: 2vh;
   display: block;
 }
@@ -145,7 +172,7 @@ html, body {
 /* 5) Navigation arrows */
 .arrow {
   position: absolute;
-  top: 47%;
+  top: 53%;
   transform: translateY(-50%);
   width: 8%;
   cursor: pointer;
@@ -165,4 +192,11 @@ html, body {
   width: 65vw;
   max-width: 300px;
   margin-top: 2vh;
+}
+.site-footer {
+  color: #000;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: -10vh;
+  padding-bottom: 4vh;
 }
