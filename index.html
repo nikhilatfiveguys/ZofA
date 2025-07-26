@@ -70,9 +70,18 @@
   <script>
     // Hero → Product
     document.querySelector('.hero-shop').onclick = () => {
-      document.querySelectorAll('.slide')[1]
-              .scrollIntoView({ behavior: 'smooth' });
-    };
+  const hero = document.querySelectorAll('.slide')[0];
+  const product = document.querySelectorAll('.slide')[1];
+
+  // Scroll to product
+  product.scrollIntoView({ behavior: 'smooth' });
+
+  // After animation delay (~500ms), hide hero
+  setTimeout(() => {
+    hero.style.display = 'none';
+  }, 600); // slightly longer than scroll duration
+};
+
 
     // Product cycling
     const states = [
