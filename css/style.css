@@ -25,18 +25,17 @@ html, body {
 .slide {
   flex: none;
   width: 100vw;
-  height: 100vh;
-  position: relative;
+  min-height: 100vh; /* Use min-height to allow extra vertical scroll */
   scroll-snap-align: start;
   background: #f0ede4;
-  overflow: hidden; /* Keep this here */
 }
 .product-view {
   overflow-y: auto;
   max-height: 100vh;
   display: flex;
   flex-direction: column;
-} 
+  position: relative; /* ← This is what keeps .product-box and others in slide 2 only */
+}
 
 .product-scroll {
   display: flex;
